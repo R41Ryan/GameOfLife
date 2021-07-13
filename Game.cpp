@@ -1,5 +1,10 @@
 #include <Game.h>
 
+int Game::getCellNum()
+{
+	return cellNum;
+}
+
 int Game::getX()
 {
 	return xPos;
@@ -20,6 +25,16 @@ int Game::getHeight()
 	return height;
 }
 
+Cell*** Game::getGrid()
+{
+	return grid;
+}
+
+void Game::setCellNum(int n)
+{
+	cellNum = n;
+}
+
 void Game::setX(int x)
 {
 	xPos = x;
@@ -38,4 +53,9 @@ void Game::setWidth(int w)
 void Game::setHeight(int h)
 {
 	height = h;
+}
+
+void Game::setGrid(Cell*** g)
+{
+	grid = g;
 }
