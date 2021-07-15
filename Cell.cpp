@@ -4,8 +4,8 @@ Cell::Cell()
 {
 	xPos = 0;
 	yPos = 0;
-	width = 5;
-	height = 5;
+	width = 10;
+	height = 10;
 	liveState = false;
 }
 
@@ -37,6 +37,21 @@ void Cell::switchState()
 	{
 		liveState = false;
 	}
+}
+
+void Cell::draw(SDL_Renderer* gRenderer)
+{
+	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0xFF);
+	SDL_Rect drawRect = { xPos, yPos, width, height };
+	if (isAlive())
+	{
+		SDL_RenderFillRect(gRenderer, &drawRect);
+	}
+	else
+	{
+		SDL_RenderDrawRect(gRenderer, &drawRect);
+	}
+
 }
 
 int Cell::getX()

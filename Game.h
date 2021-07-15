@@ -1,5 +1,6 @@
 #pragma once
 #include <Cell.h>
+#include <SDL_render.h>
 
 class Game
 {
@@ -14,13 +15,15 @@ private:
 	bool simulationIsRunning;
 public:
 // Constructors
-	Game(int n);
-	Game(int n, int x, int y);
-	Game(int n, int x, int y, int w, int h);
+	Game(int x, int y, int w, int h);
 
 // Functions
+	// Updates the cell in row x and column y.
+	void switchCellState(int x, int y);
 	// Updates the state of each cell, based on the number of surrounding live cells;
 	void update();
+	// Draws the grid.
+	void draw(SDL_Renderer* gRenderer);
 
 // Getter Functions
 	int getCellNum();

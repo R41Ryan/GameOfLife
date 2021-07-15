@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL_render.h>
 
 class Cell 
 {
@@ -17,6 +18,8 @@ public:
 // Functions
 	// if isAlive is true, set to false, and vice versa.
 	void switchState();
+	// Draws the cell.
+	void draw(SDL_Renderer* gRenderer);
 
 // Getter Functions
 	int getX();
