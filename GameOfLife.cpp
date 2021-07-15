@@ -84,34 +84,62 @@ int main(int argc, char* args[])
 
 		Game mainGame(0, 0, 80, 60);
 
-		std::cout << "Created main game." << std::endl;
-
 		while(!quit)
 		{
 			while (SDL_PollEvent(&e) > 0)
 			{
-				if (e.type == SDL_QUIT)
+				switch (e.type)
 				{
+				case SDL_QUIT:
 					quit = true;
-				}
-				
-				if (e.type == SDL_MOUSEBUTTONDOWN)
-				{
-					int x, y;
-					SDL_GetMouseState(&x, &y);
-					x -= mainGame.getX();
-					y -= mainGame.getY();
-					x /= 10;
-					y /= 10;
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					if (!mainGame.simulationRunning())
+					{
+						int x, y;
+						SDL_GetMouseState(&x, &y);
+						x -= mainGame.getX();
+						y -= mainGame.getY();
+						x /= 10;
+						y /= 10;
 
-					std::cout << "x: " << x << ", y: " << y << std::endl;
-					mainGame.switchCellState(x, y);
-				}
+						mainGame.switchCellState(x, y);
+					}
+					break;
+				case SDL_KEYDOWN:
+					switch (e.key.keysym.sym)
+					{
+					case SDLK_SPACE:
+						if (!mainGame.simulationRunning())
+						{
+							std::cout << "Running simulation.\n";
+							mainGame.setSimulationStatus(true);
+						}
+						else
+						{
+							std::cout << "Stopping simulation.\n";
+							mainGame.setSimulationStatus(false);
+						}
+					case SDLK_e:
+						if (!mainGame.simulationRunning())
+						{
+							std::cout << "Updating simulation by one step.\n";
+							mainGame.update();
+						}
+					}
+					break;
+				}		
+			}
+
+			if (mainGame.simulationRunning())
+			{
+				mainGame.update();
 			}
 
 			mainGame.draw(gRenderer);
 
 			SDL_RenderPresent(gRenderer);
+			SDL_Delay(100);
 		}
 	}
 

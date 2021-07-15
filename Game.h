@@ -24,6 +24,8 @@ public:
 	void update();
 	// Draws the grid.
 	void draw(SDL_Renderer* gRenderer);
+	// returns the number of live neighbour cells surrounding the cell described by the x and y parameters using an existing copt of the grid to analyze.
+	int getLiveNeighbours(int x, int y, Cell*** gridCopy);
 
 // Getter Functions
 	int getCellNum();
@@ -32,6 +34,7 @@ public:
 	int getWidth();
 	int getHeight();
 	Cell*** getGrid();
+	bool simulationRunning();
 
 // Setter Functions
 	void setCellNum(int n);
@@ -40,4 +43,5 @@ public:
 	void setWidth(int w);
 	void setHeight(int y);
 	void setGrid(Cell*** g);
+	void setSimulationStatus(bool s);
 };

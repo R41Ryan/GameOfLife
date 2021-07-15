@@ -20,7 +20,7 @@ Game::Game(int x, int y, int w, int h)
 		grid[i] = new Cell * [h];
 		for (int j = 0; j < h; j++)
 		{
-			grid[i][j] = new Cell(i * 10, j * 10, 10, 10);
+			grid[i][j] = new Cell(i * 10, j * 10, 10, 10, false);
 		}
 	}
 }
@@ -32,17 +32,51 @@ void Game::switchCellState(int x, int y)
 
 void Game::update()
 {
+	Cell*** gridCopy = new Cell * *[width];
+	for (int i = 0; i < width; i++)
+	{
+		gridCopy[i] = new Cell * [height];
+		for (int j = 0; j < height; j++)
+		{
+			gridCopy[i][j] = new Cell(*grid[i][j]);
+		}
+	}
+
 	for (int i = 0; i < width; i++)
 	{
 		for (int j = 0; j < height; j++)
 		{
-			int count;
-			if (i != 0)
+			int count = getLiveNeighbours(i, j, gridCopy);
+			if (gridCopy[i][j]->isAlive())
 			{
-
+				if (count < 2)
+				{
+					grid[i][j]->switchState();
+				}
+				else if (count > 3)
+				{
+					grid[i][j]->switchState();
+				}
+			}
+			else
+			{
+				if (count == 3)
+				{
+					grid[i][j]->switchState();
+				}
 			}
 		}
 	}
+
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			free(gridCopy[i][j]);
+		}
+		free(gridCopy[i]);
+	}
+	free(gridCopy);
 }
 
 void Game::draw(SDL_Renderer* gRenderer)
@@ -56,6 +90,75 @@ void Game::draw(SDL_Renderer* gRenderer)
 			grid[i][j]->draw(gRenderer);
 		}
 	}
+}
+
+int Game::getLiveNeighbours(int x, int y, Cell*** gridCopy)
+{
+	int count = 0;
+
+	bool xIsNotZero = x != 0;
+	bool xIsNotWidth = x != width - 1;
+	bool yIsNotZero = y != 0;
+	bool yIsNotHeight = y != height - 1;
+
+	if (xIsNotZero)
+	{
+		if (gridCopy[x - 1][y]->isAlive())
+		{
+			count++;
+		}
+	}
+	if (xIsNotWidth)
+	{
+		if (gridCopy[x + 1][y]->isAlive())
+		{
+			count++;
+		}
+	}
+	if (yIsNotZero)
+	{
+		if (gridCopy[x][y - 1]->isAlive())
+		{
+			count++;
+		}
+	}
+	if (yIsNotHeight)
+	{
+		if (gridCopy[x][y + 1]->isAlive())
+		{
+			count++;
+		}
+	}
+	if (xIsNotZero && yIsNotZero)
+	{
+		if (gridCopy[x - 1][y - 1]->isAlive())
+		{
+			count++;
+		}
+	}
+	if (xIsNotZero && yIsNotHeight)
+	{
+		if (gridCopy[x - 1][y + 1]->isAlive())
+		{
+			count++;
+		}
+	}
+	if (xIsNotWidth && yIsNotZero)
+	{
+		if (gridCopy[x + 1][y - 1]->isAlive())
+		{
+			count++;
+		}
+	}
+	if (xIsNotWidth && yIsNotHeight)
+	{
+		if (gridCopy[x + 1][y + 1]->isAlive())
+		{
+			count++;
+		}
+	}
+
+	return count;
 }
 
 int Game::getCellNum()
@@ -88,6 +191,11 @@ Cell*** Game::getGrid()
 	return grid;
 }
 
+bool Game::simulationRunning()
+{
+	return simulationIsRunning;
+}
+
 void Game::setCellNum(int n)
 {
 	cellNum = n;
@@ -116,4 +224,9 @@ void Game::setHeight(int h)
 void Game::setGrid(Cell*** g)
 {
 	grid = g;
+}
+
+void Game::setSimulationStatus(bool s)
+{
+	simulationIsRunning = s;
 }

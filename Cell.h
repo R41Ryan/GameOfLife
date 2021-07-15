@@ -14,6 +14,7 @@ public:
 	Cell();
 	Cell(int x, int y, int w, int h);
 	Cell(int x, int y, int w, int h, bool s);
+	Cell(const Cell& copy);
 
 // Functions
 	// if isAlive is true, set to false, and vice versa.

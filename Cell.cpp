@@ -27,6 +27,15 @@ Cell::Cell(int x, int y, int w, int h, bool s)
 	liveState = s;
 }
 
+Cell::Cell(const Cell &copy)
+{
+	setX(copy.xPos);
+	setY(copy.yPos);
+	setWidth(copy.width);
+	setHeight(copy.height);
+	liveState = copy.liveState;
+}
+
 void Cell::switchState()
 {
 	if (liveState == false)
