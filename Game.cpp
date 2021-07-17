@@ -76,7 +76,6 @@ void Game::update()
 		}
 		free(gridCopy[i]);
 	}
-	free(gridCopy);
 }
 
 void Game::draw(SDL_Renderer* gRenderer)
@@ -87,7 +86,7 @@ void Game::draw(SDL_Renderer* gRenderer)
 	{
 		for (int j = 0; j < height; j++)
 		{
-			grid[i][j]->draw(gRenderer);
+			grid[i][j]->draw(gRenderer, simulationIsRunning);
 		}
 	}
 }
@@ -159,6 +158,20 @@ int Game::getLiveNeighbours(int x, int y, Cell*** gridCopy)
 	}
 
 	return count;
+}
+
+void Game::clear()
+{
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			if (grid[i][j]->isAlive())
+			{
+				grid[i][j]->switchState();
+			}
+		}
+	}
 }
 
 int Game::getCellNum()

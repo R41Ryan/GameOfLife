@@ -48,7 +48,7 @@ void Cell::switchState()
 	}
 }
 
-void Cell::draw(SDL_Renderer* gRenderer)
+void Cell::draw(SDL_Renderer* gRenderer, bool simulationIsRunning)
 {
 	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0xFF);
 	SDL_Rect drawRect = { xPos, yPos, width, height };
@@ -56,7 +56,7 @@ void Cell::draw(SDL_Renderer* gRenderer)
 	{
 		SDL_RenderFillRect(gRenderer, &drawRect);
 	}
-	else
+	else if (!simulationIsRunning)
 	{
 		SDL_RenderDrawRect(gRenderer, &drawRect);
 	}

@@ -7,6 +7,8 @@
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
+enum buttonStates {MOUSE_DOWN, MOUSE_UP};
+
 // Initializes SDL
 bool init();
 
@@ -79,7 +81,7 @@ int main(int argc, char* args[])
 		std::cout << "Running program." << std::endl;
 
 		bool quit = false;
-
+		bool buttonState = MOUSE_UP;
 		SDL_Event e;
 
 		Game mainGame(0, 0, 80, 60);
@@ -96,16 +98,14 @@ int main(int argc, char* args[])
 				case SDL_MOUSEBUTTONDOWN:
 					if (!mainGame.simulationRunning())
 					{
-						int x, y;
-						SDL_GetMouseState(&x, &y);
-						x -= mainGame.getX();
-						y -= mainGame.getY();
-						x /= 10;
-						y /= 10;
-
-						mainGame.switchCellState(x, y);
+						buttonState = MOUSE_DOWN;
 					}
 					break;
+				case SDL_MOUSEBUTTONUP:
+					if (!mainGame.simulationRunning())
+					{
+						buttonState = MOUSE_UP;
+					}
 				case SDL_KEYDOWN:
 					switch (e.key.keysym.sym)
 					{
@@ -120,26 +120,47 @@ int main(int argc, char* args[])
 							std::cout << "Stopping simulation.\n";
 							mainGame.setSimulationStatus(false);
 						}
+						break;
 					case SDLK_e:
 						if (!mainGame.simulationRunning())
 						{
 							std::cout << "Updating simulation by one step.\n";
 							mainGame.update();
 						}
+						break;
+					case SDLK_c:
+						if (!mainGame.simulationRunning())
+						{
+							std::cout << "Clearing game board\n";
+							mainGame.clear();
+						}
 					}
-					break;
 				}		
 			}
 
 			if (mainGame.simulationRunning())
 			{
 				mainGame.update();
+				SDL_Delay(100);
+			}
+			else if (buttonState == MOUSE_DOWN)
+			{
+				int x, y;
+				SDL_GetMouseState(&x, &y);
+				x -= mainGame.getX();
+				y -= mainGame.getY();
+				x /= 10;
+				y /= 10;
+
+				if (!mainGame.getGrid()[x][y]->isAlive())
+				{
+					mainGame.switchCellState(x, y);
+				}
 			}
 
 			mainGame.draw(gRenderer);
 
 			SDL_RenderPresent(gRenderer);
-			SDL_Delay(100);
 		}
 	}
 

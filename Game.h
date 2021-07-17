@@ -26,6 +26,8 @@ public:
 	void draw(SDL_Renderer* gRenderer);
 	// returns the number of live neighbour cells surrounding the cell described by the x and y parameters using an existing copt of the grid to analyze.
 	int getLiveNeighbours(int x, int y, Cell*** gridCopy);
+	// Sets all the cells in the grid to dead.
+	void clear();
 
 // Getter Functions
 	int getCellNum();
