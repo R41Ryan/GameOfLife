@@ -4,8 +4,8 @@
 #include <SDL.h>
 #include <SDL_render.h>
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
+const int SCREEN_WIDTH = 1080;
+const int SCREEN_HEIGHT = 810;
 
 enum buttonStates {MOUSE_DOWN, MOUSE_UP};
 
@@ -84,7 +84,7 @@ int main(int argc, char* args[])
 		bool buttonState = MOUSE_UP;
 		SDL_Event e;
 
-		Game mainGame(0, 0, 80, 60);
+		Game mainGame(0, 0, SCREEN_WIDTH/10, SCREEN_HEIGHT/10);
 
 		while(!quit)
 		{

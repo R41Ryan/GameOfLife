@@ -76,6 +76,7 @@ void Game::update()
 		}
 		free(gridCopy[i]);
 	}
+	free(gridCopy);
 }
 
 void Game::draw(SDL_Renderer* gRenderer)
