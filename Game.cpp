@@ -1,8 +1,8 @@
-#include <Game.h>
+#include "Game.h"
 #include <iostream>
-#include <SDL.h>
-#include <SDL_render.h>
-#include <SDL_rect.h>
+#include "include/SDL.h"
+#include "include/SDL_render.h"
+#include "include/SDL_rect.h"
 
 Game::Game(int x, int y, int w, int h)
 {

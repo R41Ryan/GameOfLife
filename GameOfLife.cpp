@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <iostream>
-#include <Game.h>
-#include <SDL.h>
-#include <SDL_render.h>
+#include "Game.h"
+#include "include/SDL.h"
+#include "include/SDL_render.h"
 
 const int SCREEN_WIDTH = 1080;
 const int SCREEN_HEIGHT = 810;

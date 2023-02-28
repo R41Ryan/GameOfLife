@@ -1,6 +1,6 @@
 #pragma once
-#include <Cell.h>
-#include <SDL_render.h>
+#include "Cell.h"
+#include "include/SDL_render.h"
 
 class Game
 {
